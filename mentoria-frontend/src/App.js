@@ -48,12 +48,13 @@ function App() {
         hideProgressBar={true}
         closeOnClick={false}
         pauseOnHover={false}
-        draggable={false}
+        draggable={true}
         theme="dark"
         closeButton={false}
         limit={1}
         toastClassName="custom-toast"
         bodyClassName="custom-body"
+        
       />
 
     </Router>

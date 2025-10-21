@@ -171,8 +171,11 @@ body.login-body {
   .trilha-card button:hover {
     background-color: #00d6c3;
   }
-  
 
+    /* =========================
+     BOTÃO SAIR
+  ========================= */
+  
   .botao-sair {
     position: relative;
     top: -10px;
@@ -195,6 +198,41 @@ body.login-body {
     background-color: #00ffe7;
     color: #000;
     box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+  }
+  
+    /* =========================
+     PERFIL COM IA
+  ========================= */
+
+  .perfil-ia {
+    margin-top: 08rem;
+    padding: 2rem;
+    background: linear-gradient(135deg, #0f0f0f, #111);
+    border: 1px solid #00ffe7;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+    color: #e0fdfd;
+    font-family: 'Orbitron', sans-serif;
+    animation: fadeIn 0.6s ease-in-out;
+  }
+  
+  .perfil-ia-titulo {
+    font-size: 1.4rem;
+    color: #00ffe7;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  .perfil-ia-conteudo {
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #fff;
+    padding-left: 0.5rem;
+    border-left: 2px solid #00ffe7;
   }
   
   

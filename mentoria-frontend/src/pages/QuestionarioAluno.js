@@ -1,20 +1,14 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { callGenAI } from '../utils/genai';
 import React, { useEffect, useState } from 'react';
 import '../styles/questionario.css';
 import Select from 'react-select';
-import {useNavigate } from 'react-router-dom';
+import StarLoader from '../components/StarLoader';
 
 export default function QuestionarioAluno() {
-
   const navigate = useNavigate();
-
-  const sair = () => {
-    navigate('/');
-  };
-
   const location = useLocation();
   const alunoId = location.state?.alunoId;
 
@@ -24,6 +18,7 @@ export default function QuestionarioAluno() {
   const [nivel, setNivel] = useState('');
   const [trilhasSugeridas, setTrilhasSugeridas] = useState([]);
   const [perfilIA, setPerfilIA] = useState('');
+  const [gerandoPerfil, setGerandoPerfil] = useState(false);
 
   useEffect(() => {
     document.body.classList.add('login-body');
@@ -31,6 +26,8 @@ export default function QuestionarioAluno() {
       document.body.classList.remove('login-body');
     };
   }, []);
+
+  const sair = () => navigate('/');
 
   const opcoesEstilo = [
     { value: 'Visual', label: 'Visual' },
@@ -122,6 +119,8 @@ export default function QuestionarioAluno() {
   };
 
   const gerarPerfilIA = async () => {
+    setGerandoPerfil(true);
+
     const prompt = `
 Sou um aluno com o seguinte perfil:
 - Estilo de aprendizagem: ${preferencias.join(', ')}
@@ -137,25 +136,26 @@ Gere um perfil vocacional detalhado, incluindo:
 5. Possíveis desafios e como superá-los
 `;
 
-    toast.info('Gerando perfil com IA...');
     const resposta = await callGenAI(prompt);
 
     if (resposta?.output) {
-      setPerfilIA(resposta.output);
-      toast.success('Perfil gerado com sucesso!');
+      setPerfilIA(resposta.output.replace(/\*\*/g, ''));
       await salvarPerfil();
       await buscarTrilhas();
     } else {
       toast.error('Erro ao gerar perfil.');
     }
+
+    setGerandoPerfil(false);
   };
 
   return (
     <div className="cadastro-section">
       <button type="button" onClick={sair} className="botao-sair">
-       ⬅ Sair para Home
+        ⬅ Sair para Home
       </button>
       <h2>🧠 Questionário Vocacional</h2>
+
       <form className="cadastro-form">
         <label>Estilos de Aprendizagem:</label>
         <Select
@@ -186,26 +186,30 @@ Gere um perfil vocacional detalhado, incluindo:
 
         <label>Nível de Carreira:</label>
         <select value={nivel} onChange={e => setNivel(e.target.value)}>
-          <option value="">Selecione</option>
+          <option value="" disabled hidden>Selecione seu nível</option>
           <option value="Iniciante">Iniciante</option>
           <option value="Intermediário">Intermediário</option>
           <option value="Avançado">Avançado</option>
         </select>
 
-        <button type="button" onClick={buscarTrilhas}>
-          Buscar Trilhas Sugeridas
-        </button>
         <button type="button" onClick={gerarPerfilIA}>
           Gerar Perfil com IA
         </button>
+        <button type="button" onClick={buscarTrilhas}>
+          Buscar Trilhas Sugeridas
+        </button>
       </form>
 
-      {perfilIA && (
-        <div className="perfil-ia">
-          <h3>🔹 Perfil Vocacional Gerado</h3>
-          <pre>{perfilIA}</pre>
+      {gerandoPerfil && <StarLoader />}
+
+    {perfilIA && !gerandoPerfil && (
+      <div className="perfil-ia">
+        <h3 className="perfil-ia-titulo">🔹 Perfil Vocacional Gerado</h3>
+        <div className="perfil-ia-conteudo">
+          {perfilIA.replace(/\*\*/g, '')}
         </div>
-      )}
+      </div>
+    )}
 
       {trilhasSugeridas.map(trilha => (
         <div key={trilha.id} className="trilha-card">

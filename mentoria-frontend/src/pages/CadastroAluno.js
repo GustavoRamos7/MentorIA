@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../styles/home.css';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { showToast } from '../utils/toast';
 
 export default function CadastroAluno() {
   const navigate = useNavigate();
@@ -36,7 +37,7 @@ export default function CadastroAluno() {
     const nomeCompletoValido = /^[A-Za-zÀ-ÿ]{2,}(?: [A-Za-zÀ-ÿ]{2,})+$/.test(form.nome.trim());
     if (!nomeCompletoValido) {
       setErroNome(true);
-      toast.error('Insira seu nome completo (nome e sobrenome).');
+      showToast.error('Insira seu nome completo (nome e sobrenome).');
       return;
     } else {
       setErroNome(false);
@@ -52,12 +53,12 @@ export default function CadastroAluno() {
     const hoje = new Date();
 
     if (isNaN(nascimento.getTime())) {
-      toast.error('Insira uma data de nascimento válida.');
+      showToast.error('Insira uma data de nascimento válida.');
       return;
     }
 
     if (nascimento > hoje) {
-      toast.error('A data de nascimento não pode ser futura.');
+      showToast.error('A data de nascimento não pode ser futura.');
       return;
     }
 
@@ -69,7 +70,7 @@ export default function CadastroAluno() {
     }
 
     if (idade < 15) {
-      toast.error('Você precisa ter pelo menos 15 anos para se cadastrar.');
+      showToast.error('Você precisa ter pelo menos 15 anos para se cadastrar.');
       return;
     }
 
@@ -86,13 +87,13 @@ export default function CadastroAluno() {
         toast.success('Cadastro realizado com sucesso!');
         setTimeout(() => navigate('/login'), 1500);
       } else if (res.status === 409) {
-        toast.error('E-mail já cadastrado. Tente outro.');
+        showToast.error('E-mail já cadastrado. Tente outro.');
       } else {
-        toast.error(data.error || 'Erro ao cadastrar. Tente novamente.');
+        showToast.error(data.error || 'Erro ao cadastrar. Tente novamente.');
       }
     } catch (err) {
       console.error('❌ Erro no envio:', err);
-      toast.error('Erro de conexão com o servidor.');
+      showToast.error('Erro de conexão com o servidor.');
     }
   };
 

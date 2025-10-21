@@ -1,3 +1,5 @@
+import router from "./aluno.mjs";
+
 router.post('/trilhas/sugeridas', async (req, res) => {
     const { interesses } = req.body;
   
@@ -13,3 +15,4 @@ router.post('/trilhas/sugeridas', async (req, res) => {
     }
   });
   
+export default router;

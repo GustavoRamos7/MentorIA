@@ -1,19 +1,87 @@
-import React, { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useLocation } from 'react-router-dom';
 import { callGenAI } from '../utils/genai';
+import React, { useEffect, useState } from 'react';
+import '../styles/questionario.css';
+import Select from 'react-select';
+import {useNavigate } from 'react-router-dom';
 
 export default function QuestionarioAluno() {
+
+  const navigate = useNavigate();
+
+  const sair = () => {
+    navigate('/');
+  };
+
   const location = useLocation();
   const alunoId = location.state?.alunoId;
 
-  const [preferencias, setPreferencias] = useState('');
+  const [preferencias, setPreferencias] = useState([]);
   const [interesses, setInteresses] = useState([]);
   const [metas, setMetas] = useState('');
   const [nivel, setNivel] = useState('');
   const [trilhasSugeridas, setTrilhasSugeridas] = useState([]);
   const [perfilIA, setPerfilIA] = useState('');
+
+  useEffect(() => {
+    document.body.classList.add('login-body');
+    return () => {
+      document.body.classList.remove('login-body');
+    };
+  }, []);
+
+  const opcoesEstilo = [
+    { value: 'Visual', label: 'Visual' },
+    { value: 'Auditivo', label: 'Auditivo' },
+    { value: 'Cinestésico', label: 'Cinestésico' }
+  ];
+
+  const opcoesInteresse = [
+    { value: 'Tecnologia', label: 'Tecnologia' },
+    { value: 'Matemática', label: 'Matemática' },
+    { value: 'Artes', label: 'Artes' },
+    { value: 'Comunicação', label: 'Comunicação' },
+    { value: 'Gestão', label: 'Gestão' },
+    { value: 'Saúde', label: 'Saúde' }
+  ];
+
+  const customStyles = {
+    control: (base) => ({
+      ...base,
+      backgroundColor: '#111',
+      border: 'none',
+      boxShadow: '0 0 10px rgba(0, 255, 255, 0.1)',
+      color: '#fff',
+      fontFamily: 'Orbitron, sans-serif'
+    }),
+    menu: (base) => ({
+      ...base,
+      backgroundColor: '#111',
+      color: '#fff'
+    }),
+    multiValue: (base) => ({
+      ...base,
+      backgroundColor: '#00ffe7',
+      color: '#000'
+    }),
+    multiValueLabel: (base) => ({
+      ...base,
+      color: '#000',
+      fontWeight: 'bold'
+    }),
+    option: (base, state) => ({
+      ...base,
+      backgroundColor: state.isFocused ? '#00ffe7' : '#111',
+      color: state.isFocused ? '#000' : '#fff',
+      cursor: 'pointer'
+    }),
+    placeholder: (base) => ({
+      ...base,
+      color: '#888'
+    })
+  };
 
   const buscarTrilhas = async () => {
     try {
@@ -56,7 +124,7 @@ export default function QuestionarioAluno() {
   const gerarPerfilIA = async () => {
     const prompt = `
 Sou um aluno com o seguinte perfil:
-- Estilo de aprendizagem: ${preferencias}
+- Estilo de aprendizagem: ${preferencias.join(', ')}
 - Interesses: ${interesses.join(', ')}
 - Metas profissionais: ${metas}
 - Nível de carreira: ${nivel}
@@ -83,40 +151,54 @@ Gere um perfil vocacional detalhado, incluindo:
   };
 
   return (
-    <div className="container">
-      <h2>Questionário Vocacional</h2>
+    <div className="cadastro-section">
+      <button type="button" onClick={sair} className="botao-sair">
+       ⬅ Sair para Home
+      </button>
+      <h2>🧠 Questionário Vocacional</h2>
+      <form className="cadastro-form">
+        <label>Estilos de Aprendizagem:</label>
+        <Select
+          isMulti
+          options={opcoesEstilo}
+          value={opcoesEstilo.filter(opt => preferencias.includes(opt.value))}
+          onChange={selected => setPreferencias(selected.map(opt => opt.value))}
+          placeholder="Selecione os estilos de aprendizagem"
+          styles={customStyles}
+          className="select-estilo"
+        />
+        <small className="campo-dica">Você pode selecionar mais de um estilo</small>
 
-      <label>Estilo de Aprendizagem:</label>
-      <select value={preferencias} onChange={e => setPreferencias(e.target.value)}>
-        <option value="">Selecione</option>
-        <option value="Visual">Visual</option>
-        <option value="Auditivo">Auditivo</option>
-        <option value="Cinestésico">Cinestésico</option>
-      </select>
+        <label>Interesses:</label>
+        <Select
+          isMulti
+          options={opcoesInteresse}
+          value={opcoesInteresse.filter(opt => interesses.includes(opt.value))}
+          onChange={selected => setInteresses(selected.map(opt => opt.value))}
+          placeholder="Selecione seus interesses profissionais"
+          styles={customStyles}
+          className="select-estilo"
+        />
+        <small className="campo-dica">Você pode selecionar múltiplos interesses</small>
 
-      <label>Interesses:</label>
-      <select multiple value={interesses} onChange={e => setInteresses(Array.from(e.target.selectedOptions, opt => opt.value))}>
-        <option value="Tecnologia">Tecnologia</option>
-        <option value="Matemática">Matemática</option>
-        <option value="Artes">Artes</option>
-        <option value="Comunicação">Comunicação</option>
-        <option value="Gestão">Gestão</option>
-        <option value="Saúde">Saúde</option>
-      </select>
+        <label>Metas Profissionais:</label>
+        <textarea value={metas} onChange={e => setMetas(e.target.value)} />
 
-      <label>Metas Profissionais:</label>
-      <textarea value={metas} onChange={e => setMetas(e.target.value)} />
+        <label>Nível de Carreira:</label>
+        <select value={nivel} onChange={e => setNivel(e.target.value)}>
+          <option value="">Selecione</option>
+          <option value="Iniciante">Iniciante</option>
+          <option value="Intermediário">Intermediário</option>
+          <option value="Avançado">Avançado</option>
+        </select>
 
-      <label>Nível de Carreira:</label>
-      <select value={nivel} onChange={e => setNivel(e.target.value)}>
-        <option value="">Selecione</option>
-        <option value="Iniciante">Iniciante</option>
-        <option value="Intermediário">Intermediário</option>
-        <option value="Avançado">Avançado</option>
-      </select>
-
-      <button onClick={buscarTrilhas}>Buscar Trilhas Sugeridas</button>
-      <button onClick={gerarPerfilIA}>Gerar Perfil com IA</button>
+        <button type="button" onClick={buscarTrilhas}>
+          Buscar Trilhas Sugeridas
+        </button>
+        <button type="button" onClick={gerarPerfilIA}>
+          Gerar Perfil com IA
+        </button>
+      </form>
 
       {perfilIA && (
         <div className="perfil-ia">

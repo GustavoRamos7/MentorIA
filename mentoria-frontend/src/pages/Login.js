@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../styles/home.css';
+import axios from 'axios';
+import '../styles/home.css'; // ou '../styles/senha.css' se separou
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -8,6 +9,7 @@ export default function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  const [senhaVisivel, setSenhaVisivel] = useState(false);
 
   useEffect(() => {
     document.body.classList.add('login-body');
@@ -32,8 +34,12 @@ export default function Login() {
     }
 
     try {
-      // Simulação de login (substitua por chamada real ao backend)
-      if (email === 'teste@mentor.com' && senha === '123456') {
+      const res = await axios.post('http://localhost:3001/cadastro/login', {
+        email,
+        senha
+      });
+
+      if (res.data.success) {
         toast.success('Login realizado com sucesso!');
         setTimeout(() => navigate('/questionario'), 1500);
       } else {
@@ -59,12 +65,20 @@ export default function Login() {
         />
 
         <label>Senha:</label>
-        <input
-          type="password"
-          placeholder="********"
-          value={senha}
-          onChange={(e) => setSenha(e.target.value)}
-        />
+        <div className="senha-wrapper">
+          <input
+            type={senhaVisivel ? 'text' : 'password'}
+            placeholder="********"
+            value={senha}
+            onChange={(e) => setSenha(e.target.value)}
+          />
+          <span
+            className="senha-toggle"
+            onClick={() => setSenhaVisivel(!senhaVisivel)}
+          >
+            {senhaVisivel ? '🙈' : '👁️'}
+          </span>
+        </div>
 
         <button type="submit" className="section-button">Entrar</button>
       </form>

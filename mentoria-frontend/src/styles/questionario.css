@@ -1,0 +1,200 @@
+/* =========================
+   QUESTIONÁRIO - BASE
+========================= */
+
+body.login-body {
+    background: linear-gradient(135deg, #0a0a0a, #001f1f, #0a0a0a);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+  }
+  
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  
+  .cadastro-section {
+    padding: 2rem 2rem;
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  
+  .cadastro-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 600px;
+    margin: 2rem auto;
+    text-align: left;
+  }
+  
+  .cadastro-form label {
+    font-weight: bold;
+    color: #00ffe7;
+    margin-bottom: 0.4rem;
+    font-size: 1rem;
+  }
+  
+  .cadastro-form select,
+  .cadastro-form textarea {
+    padding: 0.6rem;
+    border-radius: 6px;
+    border: none;
+    background-color: #111;
+    color: #fff;
+    font-size: 1rem;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.1);
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .cadastro-form select:focus,
+  .cadastro-form textarea:focus {
+    outline: none;
+    box-shadow: 0 0 12px rgba(0, 255, 255, 0.4);
+  }
+  
+  .cadastro-form button {
+    margin-top: 1rem;
+    padding: 0.6rem 1.2rem;
+    background-color: #00ffe7;
+    color: #000;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .cadastro-form button:hover {
+    background-color: #00d6c3;
+  }
+  
+  /* =========================
+     REACT-SELECT ESTILO
+  ========================= */
+  
+  .select-estilo {
+    font-family: 'Orbitron', sans-serif;
+    margin-bottom: 0.5rem;
+  }
+  
+  .select-estilo .react-select__control {
+    background-color: #111;
+    border: none;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.1);
+    color: #fff;
+  }
+  
+  .select-estilo .react-select__multi-value {
+    background-color: #00ffe7;
+    color: #000;
+    font-weight: bold;
+  }
+  
+  .select-estilo .react-select__multi-value__label {
+    color: #000;
+  }
+  
+  .select-estilo .react-select__option {
+    background-color: #111;
+    color: #fff;
+  }
+  
+  .select-estilo .react-select__option--is-focused {
+    background-color: #00ffe7;
+    color: #000;
+  }
+  
+  /* =========================
+     DICA DE CAMPO
+  ========================= */
+  
+  .campo-dica {
+    font-size: 0.85rem;
+    color: #888;
+    margin-top: -0.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  /* =========================
+     PERFIL IA
+  ========================= */
+  
+  .perfil-ia {
+    margin-top: 2rem;
+    background-color: #111;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 0 12px rgba(0, 255, 255, 0.2);
+    color: #ccc;
+  }
+  
+  .perfil-ia h3 {
+    color: #00ffe7;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 6px rgba(0, 255, 255, 0.4);
+  }
+  
+  /* =========================
+     TRILHAS SUGERIDAS
+  ========================= */
+  
+  .trilha-card {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background-color: #0f0f0f;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+    color: #ccc;
+  }
+  
+  .trilha-card h4 {
+    color: #00f5ff;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 6px rgba(0, 255, 255, 0.4);
+  }
+  
+  .trilha-card button {
+    margin-top: 0.5rem;
+    padding: 0.4rem 0.8rem;
+    background-color: #00ffe7;
+    color: #000;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .trilha-card button:hover {
+    background-color: #00d6c3;
+  }
+  
+
+  .botao-sair {
+    position: relative;
+    top: -10px;
+    left: 0;
+    padding: 0.3rem 0.8rem;
+    font-size: 0.8rem;
+    font-family: 'Orbitron', sans-serif;
+    color: #00ffe7;
+    background: transparent;
+    border: 1px solid #00ffe7;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 6px rgba(0, 255, 255, 0.2);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+  
+  .botao-sair:hover {
+    background-color: #00ffe7;
+    color: #000;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+  }
+  
+  

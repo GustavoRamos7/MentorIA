@@ -36,7 +36,7 @@ export default function Home() {
           <li onClick={() => scrollToSection('sobre-nos')}>Sobre Nós</li>
           <li onClick={() => scrollToSection('servicos')}>Serviços</li>
           <li onClick={() => scrollToSection('contato')}>Contato</li>
-          <li className="nav-action" onClick={() => scrollToSection('cadastro')}>Cadastro</li>
+          <li className="nav-action" onClick={() => scrollToSection('cadastro')}>Central do Aluno</li>
           <li className="nav-action" onClick={() => scrollToSection('mentor')}>Área do Mentor</li>
         </ul>
       </nav>

@@ -2,7 +2,9 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import alunoRoutes from './routes/aluno.mjs';
-import genaiRoutes from './routes/genai.mjs'; 
+import genaiRoutes from './routes/genai.mjs';
+
+
 
 dotenv.config();
 

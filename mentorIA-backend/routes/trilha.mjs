@@ -1,4 +1,5 @@
 import router from "./aluno.mjs";
+import { callGenAI } from './genai.mjs';
 
 router.get('/trilhas/sugeridas/:alunoId', async (req, res) => {
   const { alunoId } = req.params;

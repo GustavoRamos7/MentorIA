@@ -29,22 +29,29 @@ export default function TrilhaDetalhes() {
   }, [trilhaId]);
 
   useEffect(() => {
+    let cancelado = false;
+
     const buscarConteudoIA = async () => {
-      setGerandoConteudo(true); // começa carregamento
-  
+      setGerandoConteudo(true);
       try {
         const res = await axios.get(`http://localhost:3001/api/aluno/trilha/${trilhaId}/conteudo-sugerido`);
-        setConteudoIA(res.data.conteudo || []);
+        if (!cancelado) {
+          console.log('Conteúdo IA recebido:', res.data.conteudo);
+          setConteudoIA(Array.isArray(res.data.conteudo) ? res.data.conteudo : []);
+        }
       } catch (err) {
         console.error('Erro ao buscar conteúdo sugerido da IA:', err);
       } finally {
-        setGerandoConteudo(false); // termina carregamento
+        if (!cancelado) setGerandoConteudo(false);
       }
     };
-  
+
     if (trilhaId) buscarConteudoIA();
+
+    return () => {
+      cancelado = true;
+    };
   }, [trilhaId]);
-  
 
   return (
     <div className="trilha-detalhes-page">
@@ -65,29 +72,33 @@ export default function TrilhaDetalhes() {
             </div>
 
             <div className="conteudo-sugerido">
-  <h3>📚 Conteúdo Sugerido</h3>
+              <h3>📚 Conteúdo Sugerido</h3>
 
-  {gerandoConteudo ? (
-    <p>🔄 Gerando conteúdo sugerido com IA...</p>
-  ) : conteudoIA.length > 0 ? (
-    conteudoIA.map((item, index) => (
-      <div key={index} className="conteudo-item">
-        <h4>
-          {item.tipo === 'Aula' && '✅ Aula Introdutória'}
-          {item.tipo === 'PDF' && '📄 Material em PDF'}
-          {item.tipo === 'Desafio' && '📝 Mini Desafio'}
-          {item.tipo === 'Curiosidade' && '💡 Curiosidade'}
-          {item.tipo === 'Dica' && '🧠 Dica Prática'}
-          {item.tipo === 'Ferramenta' && '🛠️ Ferramenta Recomendada'}
-        </h4>
-        <p>{item.texto}</p>
-        </div>
-    ))
-  ) : (
-    <p>Nenhum conteúdo sugerido disponível.</p>
-  )}
-</div>
-
+              {gerandoConteudo ? (
+                <p>🔄 Gerando conteúdo sugerido com IA...</p>
+              ) : conteudoIA.length > 0 ? (
+                conteudoIA.map((item, index) => (
+                  <div key={index} className="conteudo-item">
+                    <h4>
+                      {item.tipo === 'Aula' && '✅ Aula Introdutória'}
+                      {item.tipo === 'PDF' && '📄 Material em PDF'}
+                      {item.tipo === 'Desafio' && '📝 Mini Desafio'}
+                      {item.tipo === 'Curiosidade' && '💡 Curiosidade'}
+                      {item.tipo === 'Dica' && '🧠 Dica Prática'}
+                      {item.tipo === 'Ferramenta' && '🛠️ Ferramenta Recomendada'}
+                    </h4>
+                    <p>{item.texto}</p>
+                    {item.link && (
+                      <p>
+                        🔗 <a href={item.link} target="_blank" rel="noopener noreferrer">{item.link}</a>
+                      </p>
+                    )}
+                  </div>
+                ))
+              ) : (
+                <p>Nenhum conteúdo sugerido disponível.</p>
+              )}
+            </div>
           </>
         ) : (
           <p>Trilha não encontrada.</p>

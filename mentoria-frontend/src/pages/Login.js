@@ -4,6 +4,7 @@ import axios from 'axios';
 import '../styles/home.css'; 
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Navbar from '../components/Navbar';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -11,6 +12,7 @@ export default function Login() {
   const [senha, setSenha] = useState('');
   const [senhaVisivel, setSenhaVisivel] = useState(false);
 
+  // 🔹 animação/tema exclusivo do body de login
   useEffect(() => {
     document.body.classList.add('login-body');
     return () => {
@@ -49,13 +51,13 @@ export default function Login() {
         try {
           const perfilRes = await axios.get(`http://localhost:3001/api/perfil/verificar/${alunoId}`);
           if (perfilRes.data.existe) {
-            setTimeout(() => navigate('/inicio'), 1500); // vai para BoasVindasAluno.js
+            setTimeout(() => navigate('/inicio'), 1500);
           } else {
-            setTimeout(() => navigate('/questionario'), 1500); // vai para QuestionarioAluno.js
+            setTimeout(() => navigate('/questionario'), 1500);
           }
         } catch (err) {
           console.error('Erro ao verificar perfil:', err);
-          setTimeout(() => navigate('/questionario'), 1500); // fallback
+          setTimeout(() => navigate('/questionario'), 1500);
         }
       } else {
         toast.error('Credenciais inválidas. Tente novamente.');
@@ -66,42 +68,47 @@ export default function Login() {
   };
 
   return (
-    <div className="login-section animated-login">
-      <h2>🔐 Acesso ao MentorIA</h2>
-      <p>Insira suas credenciais para continuar sua jornada vocacional.</p>
+    <div className="login-page">
+      {/* 🧭 Navbar fixa no topo */}
+      <Navbar />
 
-      <form onSubmit={handleLogin} className="login-form">
-        <label>Email:</label>
-        <input
-          type="text"
-          placeholder="seuemail@exemplo.com"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+      <div className="login-section animated-login">
+        <h2>🔐 Acesso ao MentorIA</h2>
+        <p>Insira suas credenciais para continuar sua jornada vocacional.</p>
 
-        <label>Senha:</label>
-        <div className="senha-wrapper">
+        <form onSubmit={handleLogin} className="login-form">
+          <label>Email:</label>
           <input
-            type={senhaVisivel ? 'text' : 'password'}
-            placeholder="********"
-            value={senha}
-            onChange={(e) => setSenha(e.target.value)}
+            type="text"
+            placeholder="seuemail@exemplo.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
-          <span
-            className="senha-toggle"
-            onClick={() => setSenhaVisivel(!senhaVisivel)}
-          >
-            {senhaVisivel ? '🙈' : '👁️'}
-          </span>
+
+          <label>Senha:</label>
+          <div className="senha-wrapper">
+            <input
+              type={senhaVisivel ? 'text' : 'password'}
+              placeholder="********"
+              value={senha}
+              onChange={(e) => setSenha(e.target.value)}
+            />
+            <span
+              className="senha-toggle"
+              onClick={() => setSenhaVisivel(!senhaVisivel)}
+            >
+              {senhaVisivel ? '🙈' : '👁️'}
+            </span>
+          </div>
+
+          <button type="submit" className="section-button">Entrar</button>
+        </form>
+
+        <div className="sub-opcao" onClick={() => navigate('/cadastro')}>
+          <p>
+            Ainda não tem conta? <span className="link-text">Cadastre-se</span>
+          </p>
         </div>
-
-        <button type="submit" className="section-button">Entrar</button>
-      </form>
-
-      <div className="sub-opcao" onClick={() => navigate('/cadastro')}>
-        <p>
-          Ainda não tem conta? <span className="link-text">Cadastre-se</span>
-        </p>
       </div>
     </div>
   );

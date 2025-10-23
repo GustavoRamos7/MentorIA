@@ -6,6 +6,7 @@ import '../styles/boasvindas.css';
 import '../styles/questionario.css';
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
+import Navbar from '../components/Navbar';
 
 export default function BoasVindasAluno() {
   const navigate = useNavigate();
@@ -85,6 +86,9 @@ export default function BoasVindasAluno() {
   };
 
   return (
+    <div className="questionario-page">
+    {/* 🧭 Navbar fixa no topo */}
+    <Navbar />
     <div className="boasvindas-page">
       <div className="boasvindas-container">
         <h1>👋 Bem-vindo!</h1>
@@ -144,5 +148,6 @@ export default function BoasVindasAluno() {
         )}
       </div>
     </div>
+  </div>
   );
 }

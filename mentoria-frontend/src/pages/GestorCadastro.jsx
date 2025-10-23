@@ -3,6 +3,7 @@ import '../styles/home.css';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { showToast } from '../utils/toast';
+import Navbar from '../components/Navbar';
 
 export default function GestorCadastro() {
   const navigate = useNavigate();
@@ -71,6 +72,9 @@ export default function GestorCadastro() {
   };
 
   return (
+    <div className="gestor-login-page">
+      {/* 🧭 Navbar fixa no topo */}
+      <Navbar />
     <div className="cadastro-section">
       <h2>🧑‍💼 Cadastro de Gestor</h2>
       <form onSubmit={handleSubmit} className="cadastro-form">
@@ -134,6 +138,7 @@ export default function GestorCadastro() {
           Já sou gestor. <span className="link-text">Fazer login</span>
         </p>
       </div>
+    </div>
     </div>
   );
 }

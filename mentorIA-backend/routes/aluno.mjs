@@ -240,6 +240,23 @@ router.get('/trilha/:trilhaId', async (req, res) => {
   }
 });
 
+// 🔹 Listar todas as trilhas disponíveis no sistema (para alunos explorarem)
+router.get('/trilhas/todas', async (req, res) => {
+  try {
+    const [trilhas] = await db.query(`
+      SELECT trilha_id, titulo, descricao
+      FROM trilha_estudo
+      ORDER BY titulo ASC
+    `);
+
+    res.json({ trilhas });
+  } catch (err) {
+    console.error('Erro ao buscar trilhas gerais:', err);
+    res.status(500).json({ error: 'Erro interno ao buscar trilhas.' });
+  }
+});
+
+
 
 // 🔧 Função auxiliar para calcular score de adequação
 function calcularScore(perfil, trilha) {

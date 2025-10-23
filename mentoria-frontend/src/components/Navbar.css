@@ -1,0 +1,103 @@
+/* navbar padrão usada na home */
+.navbar-geral {
+    height: 70px; 
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    transition: height 0.3s ease;
+    flex-direction: row;
+}
+
+
+/* versão compacta (pra login, questionário, etc) */
+.navbar-geral.compact {
+    height: 50px;
+    padding: 0 10px;
+}
+
+/* navbar específica que queremos menor sem afetar a home */
+.navbar-geral.custom-small {
+    width: 100%;
+    position: relative; /* ou fixed, se quiser que fique fixa no topo */
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    background-color: #0a0a0a; /* ou o fundo que você estiver usando */
+}
+
+/* logo, links e outros estilos continuam iguais */
+.logo {
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: #00ffe7;
+    text-shadow: 0 0 12px rgba(0, 255, 255, 0.5);
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-links li {
+    font-size: 1rem;
+    color: #ccc;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.nav-links li:hover {
+    color: #00ffe7;
+    text-shadow: 0 0 6px rgba(0, 255, 255, 0.4);
+}
+
+/* 🔹 Estilo específico para ações */
+.nav-action {
+    color: #00ffe7;
+    font-weight: bold;
+    border: 1px solid #00ffe7;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    line-height: 1.2;
+}
+
+.nav-action:hover {
+    color: #000;
+    text-shadow: none;
+}
+
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease;
+}
+
+.fade-in.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+.logout-button {
+    color: #00ffe7;
+    cursor: pointer;
+    font-weight: bold;
+    margin-left: 1rem;
+    transition: color 0.3s ease;
+  }
+  
+  .logout-button:hover {
+    color: #ff0044;
+  }
+  

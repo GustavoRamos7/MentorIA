@@ -4,6 +4,7 @@ import axios from 'axios';
 import '../styles/home.css'; // usa o mesmo CSS do aluno
 import { toast } from 'react-toastify';
 import { showToast } from '../utils/toast';
+import Navbar from '../components/Navbar';
 
 export default function GestorLogin() {
   const [email, setEmail] = useState('');
@@ -43,42 +44,47 @@ export default function GestorLogin() {
   };
 
   return (
-    <div className="cadastro-section">
-      <h2>🔐 Login do Gestor</h2>
-      <form onSubmit={logar} className="cadastro-form">
-        <label>Email:</label>
-        <input
-          type="email"
-          name="email"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-          placeholder="seuemail@exemplo.com"
-        />
+    <div className="gestor-login-page">
+      {/* 🧭 Navbar fixa no topo */}
+      <Navbar />
 
-        <label>Senha:</label>
-        <div className="senha-wrapper">
+      <div className="cadastro-section">
+        <h2>🔐 Login do Gestor</h2>
+        <form onSubmit={logar} className="cadastro-form">
+          <label>Email:</label>
           <input
-            type={senhaVisivel ? 'text' : 'password'}
-            name="senha"
-            value={senha}
-            onChange={e => setSenha(e.target.value)}
-            placeholder="Digite sua senha"
+            type="email"
+            name="email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            placeholder="seuemail@exemplo.com"
           />
-          <span
-            className="senha-toggle"
-            onClick={() => setSenhaVisivel(!senhaVisivel)}
-          >
-            {senhaVisivel ? '🙈' : '👁️'}
-          </span>
+
+          <label>Senha:</label>
+          <div className="senha-wrapper">
+            <input
+              type={senhaVisivel ? 'text' : 'password'}
+              name="senha"
+              value={senha}
+              onChange={e => setSenha(e.target.value)}
+              placeholder="Digite sua senha"
+            />
+            <span
+              className="senha-toggle"
+              onClick={() => setSenhaVisivel(!senhaVisivel)}
+            >
+              {senhaVisivel ? '🙈' : '👁️'}
+            </span>
+          </div>
+
+          <button type="submit">Entrar</button>
+        </form>
+
+        <div className="sub-opcao" onClick={() => navigate('/gestor/cadastro')}>
+          <p>
+            Ainda não sou gestor. <span className="link-text">Cadastrar</span>
+          </p>
         </div>
-
-        <button type="submit">Entrar</button>
-      </form>
-
-      <div className="sub-opcao" onClick={() => navigate('/gestor/cadastro')}>
-        <p>
-          Ainda não sou gestor. <span className="link-text">Cadastrar</span>
-        </p>
       </div>
     </div>
   );

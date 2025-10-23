@@ -4,11 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Select from 'react-select';
 import TabelaTrilhas from '../components/TabelaTrilhas.jsx';
+import Navbar from '../components/Navbar';
 import '../styles/gestor.css';
 
 export default function Gestor() {
   const navigate = useNavigate();
-
   const [titulo, setTitulo] = useState('');
   const [descricao, setDescricao] = useState('');
   const [estilo, setEstilo] = useState([]);
@@ -153,66 +153,85 @@ export default function Gestor() {
   };
 
   return (
-    <div className="cadastro-section">
-      <h2>🧠 Painel do Gestor</h2>
+    <div className="gestor-page">
+      {/* 🧭 Navbar fixa no topo */}
+      <Navbar />
 
-      <div style={{ marginBottom: '1rem' }}>
-        <button
-          className="section-button"
-          onClick={() => navigate('/gestor/atribuir-trilha')}
-        >
-          📚 Atribuir Trilha a Aluno
-        </button>
-      </div>
+      <div className="cadastro-section">
+        <h2>🧠 Painel do Gestor</h2>
 
-      <form onSubmit={(e) => { e.preventDefault(); cadastrarTrilha(); }} className="cadastro-form">
-        <label>Título da trilha:</label>
-        <input value={titulo} onChange={e => setTitulo(e.target.value)} placeholder="Ex: Fundamentos da IA" />
-
-        <label>Descrição:</label>
-        <textarea value={descricao} onChange={e => setDescricao(e.target.value)} placeholder="Breve descrição da trilha" />
-
-        <label>Estilos de aprendizagem:</label>
-        <Select
-          isMulti
-          options={opcoesEstilo}
-          value={opcoesEstilo.filter(opt => estilo.includes(opt.value))}
-          onChange={selected => setEstilo(selected.map(opt => opt.value))}
-          placeholder="Selecione os estilos"
-          styles={customStyles}
-          className="select-estilo"
-        />
-        <small className="campo-dica">Você pode selecionar mais de um estilo</small>
-
-        <label>Interesses:</label>
-        <Select
-          isMulti
-          options={opcoesInteresse}
-          value={opcoesInteresse.filter(opt => interesses.includes(opt.value))}
-          onChange={selected => setInteresses(selected.map(opt => opt.value))}
-          placeholder="Selecione os interesses"
-          styles={customStyles}
-          className="select-estilo"
-        />
-        <small className="campo-dica">Você pode selecionar múltiplos interesses</small>
-
-        <label>Nível de carreira:</label>
-        <select value={nivel} onChange={e => setNivel(e.target.value)}>
-          <option value="" disabled hidden>Selecione o nível</option>
-          <option value="Iniciante">Iniciante</option>
-          <option value="Intermediário">Intermediário</option>
-          <option value="Avançado">Avançado</option>
-        </select>
-
-        <button type="submit">Cadastrar Trilha</button>
-      </form>
-
-      {trilhas.length > 0 && (
-        <div className="tabela-trilhas-wrapper">
-          <h3 className="perfil-ia-titulo">📋 Visualização em Tabela</h3>
-          <TabelaTrilhas trilhas={trilhas} />
+        <div style={{ marginBottom: '1rem' }}>
+          <button
+            className="section-button"
+            onClick={() => navigate('/gestor/atribuir-trilha')}
+          >
+            📚 Atribuir Trilha a Aluno
+          </button>
         </div>
-      )}
+
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            cadastrarTrilha();
+          }}
+          className="cadastro-form"
+        >
+          <label>Título da trilha:</label>
+          <input
+            value={titulo}
+            onChange={(e) => setTitulo(e.target.value)}
+            placeholder="Ex: Fundamentos da IA"
+          />
+
+          <label>Descrição:</label>
+          <textarea
+            value={descricao}
+            onChange={(e) => setDescricao(e.target.value)}
+            placeholder="Breve descrição da trilha"
+          />
+
+          <label>Estilos de aprendizagem:</label>
+          <Select
+            isMulti
+            options={opcoesEstilo}
+            value={opcoesEstilo.filter((opt) => estilo.includes(opt.value))}
+            onChange={(selected) => setEstilo(selected.map((opt) => opt.value))}
+            placeholder="Selecione os estilos"
+            styles={customStyles}
+            className="select-estilo"
+          />
+          <small className="campo-dica">Você pode selecionar mais de um estilo</small>
+
+          <label>Interesses:</label>
+          <Select
+            isMulti
+            options={opcoesInteresse}
+            value={opcoesInteresse.filter((opt) => interesses.includes(opt.value))}
+            onChange={(selected) => setInteresses(selected.map((opt) => opt.value))}
+            placeholder="Selecione os interesses"
+            styles={customStyles}
+            className="select-estilo"
+          />
+          <small className="campo-dica">Você pode selecionar múltiplos interesses</small>
+
+          <label>Nível de carreira:</label>
+          <select value={nivel} onChange={(e) => setNivel(e.target.value)}>
+            <option value="" disabled hidden>Selecione o nível</option>
+            <option value="Iniciante">Iniciante</option>
+            <option value="Intermediário">Intermediário</option>
+            <option value="Avançado">Avançado</option>
+          </select>
+
+          <button type="submit">Cadastrar Trilha</button>
+        </form>
+
+        {trilhas.length > 0 && (
+          <div className="tabela-trilhas-wrapper">
+            <h3 className="perfil-ia-titulo">📋 Visualização em Tabela</h3>
+            <TabelaTrilhas trilhas={trilhas} />
+          </div>
+        )}
+      </div>
     </div>
   );
 }

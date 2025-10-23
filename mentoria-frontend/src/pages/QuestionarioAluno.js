@@ -7,6 +7,8 @@ import '../styles/questionario.css';
 import Select from 'react-select';
 import StarLoader from '../components/StarLoader';
 import Swal from 'sweetalert2';
+import Navbar from '../components/Navbar';
+
 
 
 export default function QuestionarioAluno() {
@@ -39,10 +41,9 @@ export default function QuestionarioAluno() {
     };
   }, [gerandoPerfil]);
   
-  
-  
+    
 
-  const sair = () => navigate('/');
+  // const sair = () => navigate('/');
 
   const opcoesEstilo = [
     { value: 'Visual', label: 'Visual' },
@@ -277,10 +278,11 @@ export default function QuestionarioAluno() {
   };
 
   return (
-    <div className="cadastro-section">
-      <button type="button" onClick={sair} className="botao-sair">
-        ⬅ Sair para Home
-      </button>
+    <div className="questionario-page">
+    {/* 🧭 Navbar fixa no topo */}
+    <Navbar />
+        <div className="cadastro-section">
+         
       <h2>🧠 Questionário Vocacional</h2>
 
       <form className="cadastro-form">
@@ -387,5 +389,6 @@ export default function QuestionarioAluno() {
   </>
 )}
 </div> 
+</div>
   );
 }

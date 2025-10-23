@@ -1,102 +1,168 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@400;600&display=swap');
+
+body {
+  font-family: 'Poppins', 'Orbitron', sans-serif;
+  letter-spacing: 0.3px;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.3s ease;
+}
+
 .trilha-detalhes-page {
-    padding: 2rem;
-    min-height: 100vh;
-    background-color: var(--bg-color);
-    color: var(--text-color);
+  padding: 3rem 1.5rem;
+  min-height: 100vh;
+  background-color: var(--bg-color);
+}
+
+.trilha-detalhes-container {
+  max-width: 850px;
+  margin: 0 auto;
+  background-color: var(--card-bg);
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.trilha-detalhes-container:hover {
+  box-shadow: 0 8px 20px rgba(0, 255, 255, 0.2);
+  transform: translateY(-5px);
+}
+
+.voltar-button {
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 1.5rem;
+  font-weight: bold;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.voltar-button:hover {
+  background-color: #00ffe7;
+  color: #000;
+  transform: scale(1.05);
+}
+
+.trilha-info p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+.conteudo-sugerido h3 {
+  margin-top: 2.5rem;
+  color: var(--heading-color);
+  font-size: 1.4rem;
+  border-bottom: 2px solid var(--heading-color);
+  padding-bottom: 0.4rem;
+  font-weight: 600;
+}
+
+.conteudo-item {
+  margin-top: 1.8rem;
+  padding: 1.5rem;
+  background-color: var(--card-bg);
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  border-left: 5px solid var(--heading-color);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.conteudo-item:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.conteudo-item h4 {
+  margin-bottom: 1rem;
+  color: var(--heading-color);
+  font-weight: bold;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.conteudo-item p {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text-color);
+}
+
+.conteudo-item textarea {
+  width: 100%;
+  padding: 0.6rem;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  margin-top: 1rem;
+  font-family: inherit;
+  background-color: #f9f9f9;
+}
+
+.conteudo-item textarea:focus {
+  border-color: var(--heading-color);
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 255, 255, 0.2);
+}
+
+.conteudo-item button {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.conteudo-item button:hover {
+  background-color: #45a049;
+  transform: scale(1.05);
+}
+
+.conteudo-item a {
+  display: inline-block;
+  margin-top: 1rem;
+  color: #00ffe7;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.conteudo-item a:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+/* 🌞 Modo claro */
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg-color: #f4f8fc;
+    --card-bg: #ffffff;
+    --text-color: #333;
+    --heading-color: #2c3e50;
+    --button-bg: #888;
+    --button-text: #ffffff;
   }
-  
-  .trilha-detalhes-container {
-    max-width: 800px;
-    margin: 0 auto;
-    background-color: var(--card-bg);
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* 🌙 Modo escuro */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-color: #121212;
+    --card-bg: #1e1e1e;
+    --text-color: #e0e0e0;
+    --heading-color: #90caf9;
+    --button-bg: #444;
+    --button-text: #ffffff;
   }
-  
-  .voltar-button {
-    background-color: var(--button-bg);
-    color: var(--button-text);
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    cursor: pointer;
-    margin-bottom: 1rem;
-  }
-  
-  .trilha-info p {
-    margin: 0.5rem 0;
-    color: var(--text-color);
-  }
-  
-  .conteudo-sugerido h3 {
-    margin-top: 2rem;
-    color: var(--heading-color);
-  }
-  
-  .conteudo-item {
-    margin-top: 1.5rem;
-    padding: 1rem;
-    background-color: var(--card-bg);
-    border-radius: 8px;
-    box-shadow: 0 0 6px rgba(0,0,0,0.05);
-  }
-  
-  .conteudo-item h4 {
-    margin-bottom: 0.5rem;
-    color: var(--heading-color);
-  }
-  
-  .conteudo-item textarea {
-    width: 100%;
-    padding: 0.5rem;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    margin-top: 0.5rem;
-  }
-  
-  .conteudo-item button {
-    margin-top: 0.5rem;
-    padding: 0.4rem 0.8rem;
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-  }
-  
-  .conteudo-item a {
-    display: inline-block;
-    margin-top: 0.5rem;
-    color: #007bff;
-    text-decoration: none;
-  }
-  
-  .conteudo-item a:hover {
-    text-decoration: underline;
-  }
-  
-  /* 🌞 Modo claro */
-  @media (prefers-color-scheme: light) {
-    :root {
-      --bg-color: #f4f8fc;
-      --card-bg: #ffffff;
-      --text-color: #333;
-      --heading-color: #2c3e50;
-      --button-bg: #888;
-      --button-text: #ffffff;
-    }
-  }
-  
-  /* 🌙 Modo escuro */
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg-color: #121212;
-      --card-bg: #1e1e1e;
-      --text-color: #e0e0e0;
-      --heading-color: #90caf9;
-      --button-bg: #444;
-      --button-text: #ffffff;
-    }
-  }
-  
+}

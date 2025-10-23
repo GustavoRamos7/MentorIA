@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { showToast } from '../utils/toast';
 import axios from 'axios';
-
+import Navbar from '../components/Navbar';
 
 export default function CadastroAluno() {
   const navigate = useNavigate();
@@ -21,11 +21,9 @@ export default function CadastroAluno() {
   const [erroNome, setErroNome] = useState(false);
 
   useEffect(() => {
-    document.body.classList.add('login-body');
+    document.body.classList.add('cadastro-body');
     window.scrollTo(0, 0);
-    return () => {
-      document.body.classList.remove('login-body');
-    };
+    return () => document.body.classList.remove('cadastro-body');
   }, []);
 
   const handleChange = (e) => {
@@ -36,27 +34,26 @@ export default function CadastroAluno() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Validação do nome completo
     const nomeCompletoValido = /^[A-Za-zÀ-ÿ]{2,}(?: [A-Za-zÀ-ÿ]{2,})+$/.test(form.nome.trim());
     if (!nomeCompletoValido) {
       setErroNome(true);
       showToast.error('Insira seu nome completo (nome e sobrenome).');
       return;
-    } else {
-      setErroNome(false);
-    }
+    } else setErroNome(false);
 
+    // Validação de campos obrigatórios
     if (!form.nome || !form.email || !form.senha || !form.consentimento || !form.data_nascimento) {
       toast.warn('Preencha todos os campos obrigatórios.');
       return;
     }
 
-    // Converte data de YYYY-MM-DD para DD/MM/YYYY
+    // Data de nascimento
     const partes = form.data_nascimento.split('-');
     if (partes.length !== 3) {
       showToast.error('Insira a data de nascimento no formato DD/MM/AAAA.');
       return;
     }
-
     const [ano, mes, dia] = partes;
     const dataFormatada = `${dia}/${mes}/${ano}`;
     const nascimento = new Date(`${ano}-${mes}-${dia}`);
@@ -66,34 +63,32 @@ export default function CadastroAluno() {
       showToast.error('Insira uma data de nascimento válida.');
       return;
     }
-
     if (nascimento > hoje) {
       showToast.error('A data de nascimento não pode ser futura.');
       return;
     }
 
+    // Verificar idade
     let idade = hoje.getFullYear() - nascimento.getFullYear();
     const m = hoje.getMonth() - nascimento.getMonth();
     const d = hoje.getDate() - nascimento.getDate();
-    if (m < 0 || (m === 0 && d < 0)) {
-      idade--;
-    }
-
+    if (m < 0 || (m === 0 && d < 0)) idade--;
     if (idade < 15) {
       showToast.error('Você precisa ter pelo menos 15 anos para se cadastrar.');
       return;
     }
 
     try {
-      const res = await axios.post('http://localhost:3001/api/aluno', {
+      // ✅ Requisição ao backend
+      const res = await axios.post('http://localhost:3001/api/aluno/aluno', {
         ...form,
         data_nascimento: dataFormatada
       });
 
-      const data = await res.json();
+      const data = res.data; // ⚠ Aqui usamos res.data, não res.json()
 
       if (res.status === 201) {
-        localStorage.setItem('alunoId', data.alunoId);
+        localStorage.setItem('alunoId', data.aluno_id); // ⚠ usar aluno_id
         toast.success('Cadastro realizado com sucesso!');
         setTimeout(() => navigate('/login'), 1500);
       } else if (res.status === 409) {
@@ -108,86 +103,84 @@ export default function CadastroAluno() {
   };
 
   return (
-    <div className="cadastro-section">
-      <h2>📝 Cadastro de Aluno</h2>
-      <form onSubmit={handleSubmit} className="cadastro-form">
-        <label>Nome:</label>
-        <input
-          type="text"
-          name="nome"
-          value={form.nome}
-          onChange={handleChange}
-          placeholder="Nome completo"
-        />
-        {erroNome && <p className="erro-nome">⚠️ Digite seu nome completo</p>}
-
-        <label>Email:</label>
-        <input
-          type="email"
-          name="email"
-          value={form.email}
-          onChange={handleChange}
-          placeholder="seuemail@exemplo.com"
-        />
-
-        <label>Senha:</label>
-        <div className="senha-wrapper">
+    <div className="cadastro-page">
+      <Navbar />
+      <div className="cadastro-section">
+        <h2>📝 Cadastro de Aluno</h2>
+        <form onSubmit={handleSubmit} className="cadastro-form">
+          <label>Nome:</label>
           <input
-            type={senhaVisivel ? 'text' : 'password'}
-            name="senha"
-            value={form.senha}
+            type="text"
+            name="nome"
+            value={form.nome}
             onChange={handleChange}
-            placeholder="Crie uma senha segura"
+            placeholder="Nome completo"
           />
-          <span
-            className="senha-toggle"
-            onClick={() => setSenhaVisivel(!senhaVisivel)}
-          >
-            {senhaVisivel ? '🙈' : '👁️'}
-          </span>
-        </div>
+          {erroNome && <p className="erro-nome">⚠️ Digite seu nome completo</p>}
 
-        <label>Data de Nascimento:</label>
-        <input
-          type="date"
-          name="data_nascimento"
-          value={form.data_nascimento}
-          onChange={handleChange}
-          min="1950-01-01"
-        />
-
-        <label htmlFor="celular">Celular:</label>
-        <div className="input-tech-wrapper">
+          <label>Email:</label>
           <input
-            type="tel"
-            name="celular"
-            id="celular"
-            value={form.celular}
+            type="email"
+            name="email"
+            value={form.email}
             onChange={handleChange}
-            placeholder="(99) 99999-9999"
-            className="input-tech"
-            maxLength={15}
+            placeholder="seuemail@exemplo.com"
           />
-          <span className="input-icon">📡</span>
-        </div>
 
-        <div className="checkbox-group">
+          <label>Senha:</label>
+          <div className="senha-wrapper">
+            <input
+              type={senhaVisivel ? 'text' : 'password'}
+              name="senha"
+              value={form.senha}
+              onChange={handleChange}
+              placeholder="Crie uma senha segura"
+            />
+            <span className="senha-toggle" onClick={() => setSenhaVisivel(!senhaVisivel)}>
+              {senhaVisivel ? '🙈' : '👁️'}
+            </span>
+          </div>
+
+          <label>Data de Nascimento:</label>
           <input
-            type="checkbox"
-            name="consentimento"
-            checked={form.consentimento}
+            type="date"
+            name="data_nascimento"
+            value={form.data_nascimento}
             onChange={handleChange}
+            min="1950-01-01"
           />
-          <label htmlFor="consentimento">Aceito os termos da mentoria</label>
+
+          <label htmlFor="celular">Celular:</label>
+          <div className="input-tech-wrapper">
+            <input
+              type="tel"
+              name="celular"
+              id="celular"
+              value={form.celular}
+              onChange={handleChange}
+              placeholder="(99) 99999-9999"
+              className="input-tech"
+              maxLength={15}
+            />
+            <span className="input-icon">📡</span>
+          </div>
+
+          <div className="checkbox-group">
+            <input
+              type="checkbox"
+              name="consentimento"
+              checked={form.consentimento}
+              onChange={handleChange}
+            />
+            <label htmlFor="consentimento">Aceito os termos da mentoria</label>
+          </div>
+
+          <button type="submit">Cadastrar</button>
+        </form>
+
+        <div className="sub-opcao" onClick={() => navigate('/login')}>
+          <p>Já sou aluno. <span className="link-text">Fazer login</span></p>
         </div>
-
-        <button type="submit">Cadastrar</button>
-      </form>
-
-      <div className="sub-opcao" onClick={() => navigate('/login')}>
-        <p>
-          Já sou aluno. <span className="link-text">Fazer login</span>
-        </p>
       </div>
     </div>
   );
